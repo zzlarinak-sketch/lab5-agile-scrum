@@ -1,43 +1,34 @@
-"""
-Тесты для паттернов
-"""
-from singleton.game_logger import GameLogger
-from factory_method.character_factory import Warrior, WarriorFactory
-from builder.character_builder import WarriorBuilder, CharacterDirector
+from singleton.singleton import Singleton
+from factory_method.factory_method import FileLoggerFactory
+from builder.builder import HawaiianPizzaBuilder, PizzaDirector
 
 def test_singleton():
-    logger1 = GameLogger()
-    logger2 = GameLogger.get_instance()
-    
-    assert logger1 is logger2
-    
-    logger1.log("Тест")
-    assert len(logger2.get_logs()) == 1
+    s1 = Singleton.get_instance()
+    s2 = Singleton.get_instance()
+    assert s1 is s2
     print("✅ Singleton тест пройден")
 
 def test_factory_method():
-    factory = WarriorFactory()
-    warrior = factory.create_character()
-    
-    assert isinstance(warrior, Warrior)
-    assert warrior.health == 150
+    factory = FileLoggerFactory()
+    result = factory.log_message("test")
+    assert "Logging to file" in result
     print("✅ Factory Method тест пройден")
 
 def test_builder():
-    builder = WarriorBuilder()
-    director = CharacterDirector(builder)
-    character = director.construct("Тест")
-    
-    assert character.name == "Тест"
-    assert character.character_class == "Воин"
+    builder = HawaiianPizzaBuilder()
+    director = PizzaDirector(builder)
+    director.construct_pizza()
+    pizza = director.get_pizza()
+    assert "cross" in str(pizza)
+    assert "ham+pineapple" in str(pizza)
     print("✅ Builder тест пройден")
 
 def run_all_tests():
-    print("Запуск всех тестов...")
+    print("Запуск тестов...")
     test_singleton()
     test_factory_method()
     test_builder()
-    print("\n✅ Все тесты пройдены успешно!")
+    print("\n✅ Все тесты пройдены")
 
 if __name__ == "__main__":
     run_all_tests()
