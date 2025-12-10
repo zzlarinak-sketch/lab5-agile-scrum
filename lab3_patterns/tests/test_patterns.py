@@ -1,6 +1,15 @@
-from singleton.singleton import Singleton
-from factory_method.factory_method import FileLoggerFactory
-from builder.builder import HawaiianPizzaBuilder, PizzaDirector
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+try:
+    from singleton.singleton import Singleton
+    from factory_method.factory_method import FileLoggerFactory
+    from builder.builder import HawaiianPizzaBuilder, PizzaDirector
+    print("✅ Все модули импортированы")
+except ImportError as e:
+    print(f"❌ Ошибка импорта: {e}")
+    sys.exit(1)
 
 def test_singleton():
     s1 = Singleton.get_instance()
